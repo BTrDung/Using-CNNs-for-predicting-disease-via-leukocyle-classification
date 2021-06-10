@@ -57,6 +57,9 @@ def remake_img(filters, org_img):
     img = np.copy(org_img) 
     print('Getting RED color filter...')
     r   = get_conv(filters[0] ,0 ,org_img)
+    # m = np.copy(r) 
+    # m = Image.fromarray(m, 'L')
+    # m.show()
     print('Getting BLUE color filter...')
     g   = get_conv(filters[1] ,1 ,org_img)
     print('Getting GREEN color filter...')
@@ -79,13 +82,14 @@ model = tf.keras.models.Sequential([
     MaxPooling2D(pool_size=(2, 2)), 
     Convolution2D(filters=128, kernel_size=(3, 3), activation="relu"), 
     MaxPooling2D(pool_size=(2, 2)), 
-
     Flatten(), 
+    Dense(128, activation ='relu'),
     Dense(4, activation = "softmax")
 ]) 
 model.summary() 
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 # ------------------------------------------------------------------------------------------------- 
 model.fit(xTrain, yTrain, batch_size = 5, epochs=100, verbose=1)
+
 model.save("main.h5")
  
