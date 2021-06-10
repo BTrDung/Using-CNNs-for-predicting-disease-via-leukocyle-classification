@@ -57,9 +57,6 @@ def remake_img(filters, org_img):
     img = np.copy(org_img) 
     print('Getting RED color filter...')
     r   = get_conv(filters[0] ,0 ,org_img)
-    # m = np.copy(r) 
-    # m = Image.fromarray(m, 'L')
-    # m.show()
     print('Getting BLUE color filter...')
     g   = get_conv(filters[1] ,1 ,org_img)
     print('Getting GREEN color filter...')
@@ -90,14 +87,5 @@ model.summary()
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 # ------------------------------------------------------------------------------------------------- 
 model.fit(xTrain, yTrain, batch_size = 5, epochs=100, verbose=1)
-filter_layers =[get_layers(model.layers[0].weights, color=0,rows=3, columns=3, layer=0), 
-                get_layers(model.layers[0].weights, color=1,rows=3, columns=3, layer=0), 
-                get_layers(model.layers[0].weights, color=2,rows=3, columns=3, layer=0)]
-
-# remake_img(filter_layers, img)
-# model.fit(xTrain, yTrain, batch_size=1, validation_split=0.2, epochs=5)
-# model_ = model.layers[:4]
-# # print(model.layers[2].weights)
-# print(model.predict(img))
-# print(get_layers(model.layers[0].weights, color=0,rows=3, columns=3, layer=0))
-# -----------------------------------------------
+model.save("main.h5")
+ 
