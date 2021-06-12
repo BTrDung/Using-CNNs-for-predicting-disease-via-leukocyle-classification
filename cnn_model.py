@@ -14,7 +14,7 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Lambda
 from tensorflow.keras.layers import Dropout
 # ------------------------------------OPTIMIZERS---------------------------------------
-from tensorflow.keras.optimizers import RMSprop
+from tensorflow.keras.optimizers import RMSprop, Adam
 # ------------------------------------LOSS---------------------------------------------
 from tensorflow.keras.losses import CategoricalCrossentropy
 # ------------------------------------MODELS-------------------------------------------
@@ -41,6 +41,8 @@ model = Sequential([
 ]) 
 model.summary() 
 model.compile(optimizer=RMSprop(learning_rate=0.0001, decay=1e-6), loss=CategoricalCrossentropy(), metrics=['accuracy'])
+# Adam increase from epoch 13.
+# model.compile(optimizer=Adam(learning_rate=0.0001, epsilon=1e-6), loss=CategoricalCrossentropy(), metrics=['accuracy'])
 # ---------------------------------------------------------------------------------------
 # model = load_model("main.h5")
  
