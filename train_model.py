@@ -5,7 +5,7 @@ import tensorflow
 # from init_data_train import val_ds
 
 # -------------------------------------------------------------------------------------
-# cache if memory enough
+# cache if enough memory
 # AUTOTUNE = tensorflow.data.AUTOTUNE
 # data_train = data_train.cache().prefetch(buffer_size=AUTOTUNE)
 # val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
