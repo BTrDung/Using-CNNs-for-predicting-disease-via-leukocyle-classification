@@ -56,7 +56,8 @@ for layer_name, feature_map in zip(layer_names, successive_feature_maps):
             x *=  64
             x += 128
             x  = np.clip(x, 0, 255).astype('uint8')
-            display_grid[:, i * size : (i + 1) * size] = x # Tile each filter into a horizontal grid
+            # Tile each filter into a horizontal grid
+            display_grid[:, i * size : (i + 1) * size] = x 
 
         #-----------------
         # Display the grid
@@ -65,5 +66,5 @@ for layer_name, feature_map in zip(layer_names, successive_feature_maps):
         plt.figure( figsize=(scale * n_features, scale) )
         plt.title ( layer_name )
         plt.grid  ( False )
-        plt.imshow( display_grid, aspect='auto', cmap='viridis' )
+        plt.imshow( display_grid, aspect='auto', cmap='viridis')
         print('Done')
