@@ -37,6 +37,7 @@ x   = x / 255.0
 successive_feature_maps = visualization_model.predict(x)
 layer_names = [layer.name for layer in model.layers]
 
+print(layer_names)
 for layer_name, feature_map in zip(layer_names, successive_feature_maps):
     print(feature_map.shape)
     if len(feature_map.shape) == 4:
@@ -67,4 +68,4 @@ for layer_name, feature_map in zip(layer_names, successive_feature_maps):
         plt.title ( layer_name )
         plt.grid  ( False )
         plt.imshow( display_grid, aspect='auto', cmap='viridis')
-        print('Done')
+        plt.show()
