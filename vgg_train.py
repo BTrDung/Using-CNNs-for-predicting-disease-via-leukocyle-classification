@@ -17,10 +17,10 @@ import pathlib
 # ---------------------split train and val------------------
 train_data_dir = pathlib.Path('data2/5_class')
 train_datagen = ImageDataGenerator(rescale=1. / 255,
-                                   # shear_range=0.2,
-                                   rotation_range=0,
+                                   shear_range=0.2,
+                                   rotation_range=20,
                                    # zoom_range=0.2,
-                                   vertical_flip=False,
+                                   vertical_flip=True,
                                    validation_split=0.2)  # set validation split
 
 train_generator = train_datagen.flow_from_directory(
@@ -86,23 +86,34 @@ model.compile(optimizer=optimizer_init_fn(),
               metrics=['accuracy'])
 
 model.summary()
+
+
 # ----------------------------------check point----------------
 # from keras.callbacks import ModelCheckpoint, EarlyStopping
 # checkpoint = ModelCheckpoint("vgg16_1.h5", verbose=1, save_best_only=True, save_weights_only=False, mode='auto', period=1)
-
+# es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=15)
 # Fit model (training)
 # history = model.fit_generator(train_it, steps_per_epoch=len(train_it),
 #                               validation_data=val_it, validation_steps=len(val_it), epochs=50, verbose=1)
-model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-    filepath='check_point/cp.h5',
-    save_weights_only=False,
-    monitor='val_accuracy',
-    mode='max',
-    save_best_only=True,
-    save_freq="epoch")
-callbacks_list = [model_checkpoint_callback]
+# model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+#     filepath='check_point/cp.h5',
+#     save_weights_only=False,
+#     monitor='val_accuracy',
+#     mode='max',
+#     save_best_only=True,
+#     save_freq="epoch")
+class CustomSaver(tf.keras.callbacks.Callback):
+    def on_epoch_end(self, epoch, logs={}):
+        if epoch == 40:  # or save after some epoch, each k-th epoch etc.
+            self.model.save("vgg_epoch_{}.hd5".format(epoch))
+        if epoch == 50:  # or save after some epoch, each k-th epoch etc.
+            self.model.save("vgg_epoch_{}.hd5".format(epoch))
+
+
+saver = CustomSaver()
+callbacks_list = [saver]
 # -------------------------------Train-------------------------
-epoch = 100
+epoch = 60
 history = model.fit(train_generator, validation_data=validation_generator, batch_size=8, epochs=epoch, verbose=1, callbacks=callbacks_list)
 # model.fit(data_train, validation_data=val_ds, batch_size=30, epochs=30, verbose=1)
 
