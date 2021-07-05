@@ -77,8 +77,12 @@ model.add(Dense(5, activation='softmax'))
 
 
 def optimizer_init_fn():
-    learning_rate = 1e-4
-    return tf.keras.optimizers.Adam(learning_rate)
+    lr_schedule = tensorflow.keras.optimizers.schedules.ExponentialDecay(
+        initial_learning_rate=1e-4,
+        decay_steps=10000,
+        decay_rate=0.9)
+    # learning_rate = 1e-4
+    return tf.keras.optimizers.Adam(learning_rate=lr_schedule)
 
 
 model.compile(optimizer=optimizer_init_fn(),
@@ -111,13 +115,16 @@ class CustomSaver(tf.keras.callbacks.Callback):
 
 
 saver = CustomSaver()
-callbacks_list = [saver]
+callbacks_list = []
 # -------------------------------Train-------------------------
-epoch = 60
+epoch = 20
 history = model.fit(train_generator, validation_data=validation_generator, batch_size=8, epochs=epoch, verbose=1, callbacks=callbacks_list)
 # model.fit(data_train, validation_data=val_ds, batch_size=30, epochs=30, verbose=1)
 
-model.save("vgg.h5")
+model.save("vgg16.h5")
 
+# ---------------continue-------------------------------------
+loaded_model_h5 = tf.keras.models.load_model('vgg16.h5')
+loaded_model_h5.fit()
 # ------------------------draw plt if use validation_data----------------------------
 draw_plt(history, epoch)
