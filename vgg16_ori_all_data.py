@@ -15,18 +15,24 @@ import pathlib
 # for gpu in tf.config.experimental.list_physical_devices('GPU'):
 #     tf.compat.v2.config.experimental.set_memory_growth(gpu, True)
 # ---------------------split train and val------------------
-train_data_dir = pathlib.Path('data2/5_class')
+train_data_dir = pathlib.Path('original_data/5_classes_train')
 train_datagen = ImageDataGenerator(rescale=1. / 255,
-                                   shear_range=0.2,
-                                   rotation_range=20,
-                                   # zoom_range=0.2,
+                                   shear_range=0.1,
+                                   rotation_range=50,
+                                   width_shift_range=0.1,
+                                   height_shift_range=0.1,
+                                   zoom_range=0.2,
                                    vertical_flip=True,
+                                   horizontal_flip=True,
                                    validation_split=0.2)  # set validation split
+# train_datagen = ImageDataGenerator(rescale=1. / 255,
+#                                    validation_split=0.2)  # not data augmentation
+
 
 train_generator = train_datagen.flow_from_directory(
     train_data_dir,
     target_size=(224, 224),
-    batch_size=8,
+    batch_size=12,
     class_mode='categorical',
     subset='training',
     seed=20)  # set as training data
@@ -34,14 +40,14 @@ train_generator = train_datagen.flow_from_directory(
 validation_generator = train_datagen.flow_from_directory(
     train_data_dir,  # same directory as training data
     target_size=(224, 224),
-    batch_size=8,
+    batch_size=12,
     class_mode='categorical',
     subset='validation')  # set as validation data
 # -------------------------------------------------------------------------------------
 # cache if enough memory
 # AUTOTUNE = tensorflow.data.AUTOTUNE
-# data_train = data_train.cache().prefetch(buffer_size=AUTOTUNE)
-# val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+# train_generator = train_generator.cache().prefetch(buffer_size=AUTOTUNE)
+# validation_generator = validation_generator.cache().prefetch(buffer_size=AUTOTUNE)
 
 
 model = tf.keras.Sequential()
@@ -78,9 +84,9 @@ model.add(Dense(5, activation='softmax'))
 
 def optimizer_init_fn():
     lr_schedule = tensorflow.keras.optimizers.schedules.ExponentialDecay(
-        initial_learning_rate=1e-4,
+        initial_learning_rate=1e-6,
         decay_steps=10000,
-        decay_rate=0.9)
+        decay_rate=0.90)
     # learning_rate = 1e-4
     return tf.keras.optimizers.Adam(learning_rate=lr_schedule)
 
@@ -93,9 +99,20 @@ model.summary()
 
 
 # ----------------------------------check point----------------
-# from keras.callbacks import ModelCheckpoint, EarlyStopping
+from tensorflow.keras.callbacks import EarlyStopping
 # checkpoint = ModelCheckpoint("vgg16_1.h5", verbose=1, save_best_only=True, save_weights_only=False, mode='auto', period=1)
-# es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=15)
+es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=7)
+
+def upe():
+    global epoch_now
+    epoch_now += 1
+
+class myCallback(tensorflow.keras.callbacks.Callback):
+    def on_epoch_end(self, epoch, logs=None):
+        upe()
+
+
+uppe = myCallback()
 # Fit model (training)
 # history = model.fit_generator(train_it, steps_per_epoch=len(train_it),
 #                               validation_data=val_it, validation_steps=len(val_it), epochs=50, verbose=1)
@@ -115,16 +132,17 @@ class CustomSaver(tf.keras.callbacks.Callback):
 
 
 saver = CustomSaver()
-callbacks_list = []
+callbacks_list = [uppe, es]
 # -------------------------------Train-------------------------
-epoch = 20
-history = model.fit(train_generator, validation_data=validation_generator, batch_size=8, epochs=epoch, verbose=1, callbacks=callbacks_list)
+epoch = 60
+epoch_now = 0
+history = model.fit(train_generator, validation_data=validation_generator, batch_size=12, epochs=epoch, verbose=1, callbacks=callbacks_list)
 # model.fit(data_train, validation_data=val_ds, batch_size=30, epochs=30, verbose=1)
 
-model.save("vgg16.h5")
+model.save("vgg16_ori_alldata.h5")
 
 # ---------------continue-------------------------------------
 # loaded_model_h5 = tf.keras.models.load_model('vgg16.h5')
 # loaded_model_h5.fit()
 # ------------------------draw plt if use validation_data----------------------------
-draw_plt(history, epoch)
+draw_plt(history, epoch_now, 'vgg16_ori_all_data')

@@ -70,18 +70,18 @@ def convert(path_img, path_msk):
             center = (i[0], i[1])
             # y, x = locate_center(i[0], i[1])
             crop = np.copy(img_rgb[(i[1] - 112):(i[1] + 112), (i[0] - 112):(i[0] + 112)])
-            # crop = np.copy(img_rb[(y - 112):(y + 112), (x - 112):(x + 112)])
+            # crop = np.copy(img_rgb[(y - 112):(y + 112), (x - 112):(x + 112)])
             result.append(crop)
 
 # -------------------BAOSO---------------------------------
-# for i in range(1, 54):
-#     print(i)
-#     path_img = 'LISC_Database/Main Dataset/Baso/' + str(i) + '.bmp'
-#     path_msk = 'LISC_Database/Ground Truth Segmentation/Baso/areaforexpert1/' + str(i) + '_expert.bmp'
-#     convert(path_img, path_msk)
-#
-# for i in range(0, len(result)):
-#     cv.imwrite('original_data/Baoso_t/' + str(i) + '.png', result[i])
+for i in range(1, 54):
+    print(i)
+    path_img = 'LISC_Database/Main Dataset/Baso/' + str(i) + '.bmp'
+    path_msk = 'LISC_Database/Ground Truth Segmentation/Baso/areaforexpert1/' + str(i) + '_expert.bmp'
+    convert(path_img, path_msk)
+
+for i in range(0, len(result)):
+    cv.imwrite('original_data/Baoso/' + str(i) + '.png', result[i])
 
 
 # -------------------EOSI---------------------------------
@@ -132,12 +132,12 @@ def convert(path_img, path_msk):
 
 
 # -------------------NEUT---------------------------------
-for i in range(1, 51):
-    print(i)
-    path_img = 'LISC_Database/Main Dataset/neut/' + str(i) + '.bmp'
-    path_msk = 'LISC_Database/Ground Truth Segmentation/neut/areaforexpert1/' + str(i) + '_expert.bmp'
-    convert(path_img, path_msk)
-
-for i in range(0, len(result)):
-    cv.imwrite('original_data/neut/' + str(i) + '.png', result[i])
+# for i in range(47, 48):
+#     print(i)
+#     path_img = 'LISC_Database/Main Dataset/neut/' + str(i) + '.bmp'
+#     path_msk = 'LISC_Database/Ground Truth Segmentation/neut/areaforexpert1/' + str(i) + '_expert.bmp'
+#     convert(path_img, path_msk)
+#
+# for i in range(0, len(result)):
+#     cv.imwrite('original_data/neut/' + str(i) + '.png', result[i])
 

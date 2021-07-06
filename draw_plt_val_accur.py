@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-def draw_plt(history, epochs):
+def draw_plt(history, epochs, name='val_accur'):
     acc = history.history['accuracy']
     val_acc = history.history['val_accuracy']
 
@@ -22,5 +22,5 @@ def draw_plt(history, epochs):
     plt.plot(epochs_range, val_loss, label='Validation Loss')
     plt.legend(loc='upper right')
     plt.title('Training and Validation Loss')
-    plt.savefig('plt_val_accur.png')
+    plt.savefig('plt_' + name + '.png')
 
