@@ -75,7 +75,7 @@ model.add(Conv2D(512, (3, 3), activation="relu", padding="same", kernel_initiali
 model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), name='block5_maxpool'))
 
 model.add(Flatten())
-model.add(Dense(4096, activation='relu'))
+model.add(Dense(4096, activation='relu'))   
 model.add(Dropout(0.5))
 model.add(Dense(4096, activation='relu'))
 model.add(Dropout(0.25))
