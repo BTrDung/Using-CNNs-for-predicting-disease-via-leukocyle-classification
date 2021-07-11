@@ -12,11 +12,10 @@ All of them are color images and were collected from Hematology-Oncology and BMT
 </p>
 
 ## Requirements
-Python: ![](https://img.shields.io/badge/python-3.8.11-blue)
-
-Tensorflow: ![](https://img.shields.io/badge/tensorflow-2.4.1-blue)
+Python: [![Download](https://img.shields.io/badge/download-3.8.11-blue.svg?longCache=true&style=flat&logo=python)](https://www.python.org/downloads/release/python-3811/) 
+ 
+Tensorflow: [![Download](https://img.shields.io/badge/download-2.4.1-blue.svg?longCache=true&style=flat&logo=tensorflow)](https://www.tensorflow.org/) 
 
 OpenCV: ![](https://img.shields.io/badge/opencv-4.5.2.54-blue) 
  
 Weights: [![Download](https://img.shields.io/badge/download-vgg16.h5-blue.svg?longCache=true&style=flat&logo=google-drive)](https://drive.google.com/drive/folders/13CAH4i3mEc0Ybk14_UJFEJsg_1NTcJIT?usp=sharing) 
-
