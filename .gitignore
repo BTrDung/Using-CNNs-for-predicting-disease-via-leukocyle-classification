@@ -3,6 +3,6 @@
 /test_hough_line.py
 /img.png
 /trash.py
-/vgg16.h5
-/vgg19.h5
+/vgg16_old.h5
+/vgg19_old.h5
 /LISC_Database/
