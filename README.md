@@ -19,3 +19,8 @@ Tensorflow: [![Download](https://img.shields.io/badge/download-2.4.1-blue.svg?lo
 OpenCV: [![Download](https://img.shields.io/badge/download-4.5.2.54-blue.svg?longCache=true&style=flat&logo=opencv)](https://opencv.org/) 
 
 Weights: [![Download](https://img.shields.io/badge/download-vgg16.h5-blue.svg?longCache=true&style=flat&logo=google-drive)](https://drive.google.com/drive/folders/13CAH4i3mEc0Ybk14_UJFEJsg_1NTcJIT?usp=sharing) 
+
+## Setup
+> pip install numpy 
+> pip install tensorflow.keras
+> pip install cv2
