@@ -22,5 +22,9 @@ Weights: [![Download](https://img.shields.io/badge/download-vgg16.h5-blue.svg?lo
 
 ## Setup
 > pip install numpy 
+> 
 > pip install tensorflow.keras
+> 
 > pip install cv2
+> 
+> pip install matplotlib
