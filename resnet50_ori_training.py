@@ -10,8 +10,6 @@ from tensorflow.keras.losses import CategoricalCrossentropy
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import pathlib
 
-
-
 # for gpu in tf.config.experimental.list_physical_devices('GPU'):
 #     tf.compat.v2.config.experimental.set_memory_growth(gpu, True)
 # ---------------------split train and val------------------
@@ -56,10 +54,9 @@ model = tf.keras.Sequential()
 
 # 1st layer as the lumpsum weights from resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5
 # NOTE that this layer will be set below as NOT TRAINABLE, i.e., use it as is
-model.add(tf.keras.applications.ResNet50(include_top = False, pooling = 'max', weights = 'imagenet'))
+model.add(tf.keras.applications.ResNet50(include_top=False, pooling='max', weights='imagenet'))
 
-# 2nd layer as Dense for 2-class classification, i.e., dog or cat using SoftMax activation
-model.add(Dense(5, activation = 'softmax'))
+model.add(Dense(5, activation='softmax'))
 
 # Say not to train first layer (ResNet) model as it is already trained
 model.layers[0].trainable = False
@@ -103,6 +100,7 @@ class CustomSaver(tf.keras.callbacks.Callback):
 
 saver = CustomSaver()
 index = 0
+
 
 class CustomCallback(tensorflow.keras.callbacks.Callback):
     def on_epoch_begin(self, epoch, logs=None):
